@@ -29,9 +29,9 @@ describe 'mongodb_server::default' do
       expect(chef_run).to upgrade_package 'mongodb'
     end
 
-    it 'enables and starts mongod service' do
-      expect(chef_run).to enable_service 'mongod'
-      expect(chef_run).to start_service 'mongod'
+    it 'enables and starts mongodb service' do
+      expect(chef_run).to enable_service 'mongodb'
+      expect(chef_run).to start_service 'mongodb'
     end
 
   end
