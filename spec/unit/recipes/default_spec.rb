@@ -18,5 +18,21 @@ describe 'mongodb_server::default' do
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
     end
+
+    # it 'adds key to keyring' do
+    # end
+
+    # it 'creates mongodb list file' do
+    # end
+
+    it 'updates mongodb' do
+      expect(chef_run).to upgrade_package 'mongodb'
+    end
+
+    it 'enables and starts mongod service' do
+      expect(chef_run).to enable_service 'mongod'
+      expect(chef_run).to start_service 'mongod'
+    end
+
   end
 end
