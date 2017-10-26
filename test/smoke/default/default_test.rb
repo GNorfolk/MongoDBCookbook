@@ -16,15 +16,15 @@ describe port(27017) do
   it { should be_listening }
 end
 
-describe package 'mongodb' do
+describe package 'mongodb-org' do
 	it { should be_installed }
 end 
 
-describe package 'mongodb' do
+describe package 'mongodb-org' do
 	its('version') { should match /3\./ }
 end
 
-describe service 'mongodb' do
+describe service 'mongod' do
 	it { should be_running }
 	it { should be_enabled }
 end 

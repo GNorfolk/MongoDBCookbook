@@ -6,7 +6,7 @@
 
 apt_update
 
-package 'mongodb' do
+package 'mongodb-org' do
 	action :purge 
 end
 
@@ -15,11 +15,11 @@ end
 # end
 
 apt_repository 'mongodb-org' do
-  uri 'deb http://repo.mongodb.org/apt/ubuntu'
+  uri 'http://repo.mongodb.org/apt/ubuntu'
   keyserver 'hkp://keyserver.ubuntu.com:80'
   key 'EA312927'
   distribution "xenial/mongodb-org/3.2"
-  components ['main', 'stable', 'multiverse']
+  components ['multiverse']
 end
 
 # execute 'create MongoDB list item' do
@@ -28,7 +28,7 @@ end
 
 apt_update
 
-package 'mongodb' do
+package 'mongodb-org' do
 	action :upgrade 
 end
 
@@ -57,10 +57,7 @@ template '/lib/systemd/system/mongod.service' do
   mode '0755'
 end
 
-service 'mongodb' do
-	action [:enable, :restart]
-end
-
-service 'mongodb' do
-	action :start
+service 'mongod' do
+	supports status: true, restart: true, reload: true
+	action [:enable, :start]
 end
