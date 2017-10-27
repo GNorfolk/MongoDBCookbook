@@ -34,5 +34,17 @@ describe 'mongodb_server::default' do
       expect(chef_run).to start_service 'mongod'
     end
 
+    it 'adds repo for mongo' do
+      expect(chef_run).to add_apt_repository 'mongodb-org'
+    end
+
+    it 'expects to make service template' do
+      expect(chef_run).to create_template '/lib/systemd/system/mongod.service'
+    end
+
+    it 'expects to make conf template' do
+      expect(chef_run).to create_template '/etc/mongod.conf'
+    end
+
   end
 end
