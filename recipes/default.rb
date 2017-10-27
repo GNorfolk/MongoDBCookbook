@@ -4,7 +4,9 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
-apt_update
+apt_update 'update' do
+  action :update
+end
 
 package 'mongodb-org' do
 	action :purge 
@@ -26,7 +28,9 @@ end
 # 	command 'echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list'
 # end
 
-apt_update
+apt_update 'update' do
+  action :update
+end
 
 package 'mongodb-org' do
 	action :upgrade 
@@ -39,15 +43,16 @@ end
 # 	action :create
 # end
 
-file '/etc/mongod.conf' do
-	action :delete
-end
+# file '/etc/mongod.conf' do
+# 	action :delete
+# end
 
 template '/etc/mongod.conf' do
   source 'mongod.conf.erb'
   owner 'root'
   group 'root'
   mode '0755'
+  notifies :restart, 'service[mongod]'
 end
 
 template '/lib/systemd/system/mongod.service' do
@@ -55,6 +60,7 @@ template '/lib/systemd/system/mongod.service' do
   owner 'root'
   group 'root'
   mode '0755'
+  notifies :restart, 'service[mongod]'
 end
 
 service 'mongod' do

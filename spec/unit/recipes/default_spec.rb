@@ -19,6 +19,10 @@ describe 'mongodb_server::default' do
       expect { chef_run }.to_not raise_error
     end
 
+    it 'does apt-update' do
+      expect(chef_run).to update_apt_update 'update'
+    end
+
     # it 'adds key to keyring' do
     # end
 
@@ -40,10 +44,12 @@ describe 'mongodb_server::default' do
 
     it 'expects to make service template' do
       expect(chef_run).to create_template '/lib/systemd/system/mongod.service'
+      template = chef_run.template('/lib/systemd/system/mongod.service')
     end
 
     it 'expects to make conf template' do
       expect(chef_run).to create_template '/etc/mongod.conf'
+      template = chef_run.template('/etc/mongod.conf')
     end
 
   end
